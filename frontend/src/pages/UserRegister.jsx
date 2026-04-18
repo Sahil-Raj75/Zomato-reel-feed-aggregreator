@@ -1,7 +1,29 @@
 import '../styles/theme.css';
 import '../styles/authShared.css';
+import axios from 'axios';
 
 const UserRegister = () => {
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+
+    const formData = {
+      firstName: e.target.firstName.value,
+      email: e.target.email.value,
+      phonenumber: e.target.phonenumber.value,
+      password: e.target.password.value
+    }
+    // const firstName = e.target.firstName.value;
+    // console.log(formData)
+     axios.post('http://localhost:3000/api/auth/user/register', {
+      name : formData.firstName,
+      email : formData.email,
+      phonenumber : formData.phonenumber,
+      password : formData.password
+    });
+    
+  }
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -12,12 +34,13 @@ const UserRegister = () => {
         </div>
 
         {/* Form */}
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* Full Name */}
           <div className="form-group">
             <label className="form-label">Full Name</label>
             <input
               type="text"
+              name="firstName"
               className="form-input"
               placeholder="Enter your full name"
             />
@@ -28,6 +51,7 @@ const UserRegister = () => {
             <label className="form-label">Email Address</label>
             <input
               type="email"
+              name="email"
               className="form-input"
               placeholder="Enter your email"
             />
@@ -38,6 +62,7 @@ const UserRegister = () => {
             <label className="form-label">Phone Number</label>
             <input
               type="tel"
+              name="phonenumber"
               className="form-input"
               placeholder="Enter your phone number"
             />
@@ -48,6 +73,7 @@ const UserRegister = () => {
             <label className="form-label">Password</label>
             <input
               type="password"
+              name="password"
               className="form-input"
               placeholder="Create a strong password"
             />
@@ -62,8 +88,8 @@ const UserRegister = () => {
           </div>
 
           {/* Register Button */}
-          <button type="button" className="btn btn-primary">
-            Create Account
+          <button type="submit" className="btn btn-primary">
+            Sign Up
           </button>
         </form>
 

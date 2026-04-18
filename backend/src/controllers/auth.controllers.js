@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 
 const registerUser = async (req, res) => {
-    const {name , email  , password } = req.body; // destructuring req.body se name , email aur password ko extract kr rhe hai
+    const {name , email  , password , phonenumber} = req.body; // destructuring req.body se name , email aur password ko extract kr rhe hai
 
 
 const isUserAlreadyExist = await UserModel.findOne({email}) // find user in database with email
@@ -21,7 +21,8 @@ if(isUserAlreadyExist){ // if user already exist in database then return error m
     const user = await UserModel.create({ // create user in database
         name,
         email,
-        password : hashedPassword
+        password : hashedPassword,
+        phonenumber,
     })
 
     const token = jwt.sign({ // create token with user id as payload
@@ -35,9 +36,11 @@ if(isUserAlreadyExist){ // if user already exist in database then return error m
         user : {
             _id : user._id,
             name : user.name,
-            email : user.email
+            email : user.email,
+            phonenumber : user.phonenumber
         }
     })
+    console.log(user);
 }
 
 const loginUser = async (req, res) => {
@@ -84,7 +87,7 @@ const logoutUser = async(req ,res) =>{
 }
 
 const registerFoodPartner = async(req ,res) =>{
-    const {name ,email , password} = req.body;
+    const { name, email, password, ownerName, restaurantName, phonenumber, restaurantaddress } = req.body;
 
     const isFoodPartherAlreadyExists = await FoodPartnerModel.findOne({email});
 
@@ -99,7 +102,11 @@ const registerFoodPartner = async(req ,res) =>{
     const foodPartner = await FoodPartnerModel.create({
         name,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        ownerName,
+        restaurantName,
+        phonenumber,
+        restaurantaddress
     })
 
     const token  = jwt.sign({
@@ -114,6 +121,8 @@ const registerFoodPartner = async(req ,res) =>{
             _id : foodPartner._id,
             name : foodPartner.name,
             email : foodPartner.email,
+            ownerName: foodPartner.ownerName,
+            restaurantName: foodPartner.restaurantName,
         }
     }) 
 }
