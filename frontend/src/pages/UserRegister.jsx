@@ -1,10 +1,13 @@
 import '../styles/theme.css';
 import '../styles/authShared.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { use } from 'react';
 
 const UserRegister = () => {
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
 
     const formData = {
@@ -15,13 +18,20 @@ const UserRegister = () => {
     }
     // const firstName = e.target.firstName.value;
     // console.log(formData)
-     axios.post('http://localhost:3000/api/auth/user/register', {
+    const response = await axios.post('http://localhost:3000/api/auth/user/register', {
       name : formData.firstName,
       email : formData.email,
       phonenumber : formData.phonenumber,
       password : formData.password
-    });
+    },
+  {
+    withCredentials: true
+  });
     
+    console.log(response.data);
+
+    navigate('/user/login');
+
   }
 
   return (

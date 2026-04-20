@@ -1,7 +1,31 @@
 import '../styles/theme.css';
 import '../styles/authShared.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const FoodPartnerRegister = () => {
+  
+const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await axios.post('http://localhost:3000/api/auth/foodPartner/register',
+        {
+          email: e.target.email.value,
+          ownerName: e.target.ownerName.value,
+          restaurantName: e.target.restaurantName.value,
+          phonenumber: e.target.phone.value,
+          restaurantaddress: e.target.address.value,
+          password: e.target.password.value
+        },
+        { withCredentials: true })
+
+    console.log("Form Data: ", response.data);
+
+    navigate('/food-partner/login');
+  }
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -12,12 +36,13 @@ const FoodPartnerRegister = () => {
         </div>
 
         {/* Form */}
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* Restaurant Name */}
           <div className="form-group">
             <label className="form-label">Restaurant Name</label>
             <input
               type="text"
+              name="restaurantName"
               className="form-input"
               placeholder="Enter your restaurant name"
             />
@@ -28,6 +53,7 @@ const FoodPartnerRegister = () => {
             <label className="form-label">Owner Name</label>
             <input
               type="text"
+              name="ownerName"
               className="form-input"
               placeholder="Enter your full name"
             />
@@ -38,6 +64,7 @@ const FoodPartnerRegister = () => {
             <label className="form-label">Email Address</label>
             <input
               type="email"
+              name="email"
               className="form-input"
               placeholder="Enter your email"
             />
@@ -48,6 +75,7 @@ const FoodPartnerRegister = () => {
             <label className="form-label">Phone Number</label>
             <input
               type="tel"
+              name="phone"
               className="form-input"
               placeholder="Enter your phone number"
             />
@@ -58,6 +86,7 @@ const FoodPartnerRegister = () => {
             <label className="form-label">Restaurant Address</label>
             <input
               type="text"
+              name="address"
               className="form-input"
               placeholder="Enter your restaurant address"
             />
@@ -68,6 +97,7 @@ const FoodPartnerRegister = () => {
             <label className="form-label">Password</label>
             <input
               type="password"
+              name="password"
               className="form-input"
               placeholder="Create a strong password"
             />
@@ -82,7 +112,7 @@ const FoodPartnerRegister = () => {
           </div>
 
           {/* Register Button */}
-          <button type="button" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Register Restaurant
           </button>
         </form>

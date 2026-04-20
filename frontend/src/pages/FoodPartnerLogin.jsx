@@ -1,7 +1,28 @@
 import '../styles/theme.css';
 import '../styles/authShared.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const FoodPartnerLogin = () => {
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await axios.post('http://localhost:3000/api/auth/foodPartner/login', {
+      email: e.target.email.value,
+      password: e.target.password.value
+    },
+  {
+    withCredentials: true
+  });
+
+  console.log(response.data);
+
+  navigate('/create-food');
+  
+  }
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -12,12 +33,13 @@ const FoodPartnerLogin = () => {
         </div>
 
         {/* Form */}
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* Email */}
           <div className="form-group">
             <label className="form-label">Email Address</label>
             <input
               type="email"
+              name='email'
               className="form-input"
               placeholder="Enter your email"
             />
@@ -28,6 +50,7 @@ const FoodPartnerLogin = () => {
             <label className="form-label">Password</label>
             <input
               type="password"
+              name='password'
               className="form-input"
               placeholder="Enter your password"
             />
@@ -42,7 +65,7 @@ const FoodPartnerLogin = () => {
           </div>
 
           {/* Login Button */}
-          <button type="button" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Sign In
           </button>
         </form>

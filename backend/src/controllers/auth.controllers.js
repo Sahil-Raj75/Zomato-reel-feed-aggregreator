@@ -87,7 +87,7 @@ const logoutUser = async(req ,res) =>{
 }
 
 const registerFoodPartner = async(req ,res) =>{
-    const { name, email, password, ownerName, restaurantName, phonenumber, restaurantaddress } = req.body;
+    const { ownerName , email, password, restaurantName, phonenumber, restaurantaddress } = req.body;
 
     const isFoodPartherAlreadyExists = await FoodPartnerModel.findOne({email});
 
@@ -100,10 +100,9 @@ const registerFoodPartner = async(req ,res) =>{
     const hashedPassword = await bcrypt.hash(password,10);
 
     const foodPartner = await FoodPartnerModel.create({
-        name,
+        ownerName,
         email,
         password: hashedPassword,
-        ownerName,
         restaurantName,
         phonenumber,
         restaurantaddress
@@ -119,9 +118,8 @@ const registerFoodPartner = async(req ,res) =>{
         message : "Food parther registered successfully",
         foodPartner :{ // food parther ke properties ko frontend (response me) bhej rhe hai
             _id : foodPartner._id,
-            name : foodPartner.name,
-            email : foodPartner.email,
             ownerName: foodPartner.ownerName,
+            email : foodPartner.email,
             restaurantName: foodPartner.restaurantName,
         }
     }) 
