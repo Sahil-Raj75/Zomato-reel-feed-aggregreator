@@ -5,7 +5,7 @@ const userModel = require('../models/user.model'); // user model ko import kr rh
 const jwt = require('jsonwebtoken'); // jsonwebtoken module ko import kr rhe hai taki token generate kr ske aur verify kr ske
 
 
-const authfoodPartner = async(req ,res,next)=>{
+const authfoodPartner = async(req ,res,next)=>{ 
 
     const token  = req.cookies.token;
 
@@ -35,7 +35,7 @@ const authUsermiddleware = async (req ,res, next) =>{
     const token  = req.cookies.token;
 
     if(!token){
-        res.status(401).json({
+        return res.status(401).json({
             message: "Please login first"
         })
     }
@@ -49,7 +49,7 @@ const authUsermiddleware = async (req ,res, next) =>{
         next();
     }
     catch(error){
-        res.status(401).json({
+        return res.status(401).json({
             message: "Invalid token"
         })
 }

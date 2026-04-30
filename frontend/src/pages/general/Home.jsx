@@ -45,11 +45,16 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/food/')
-    .then((response) => {
-      setCurrentVideo(response.data.fooditems)
-    })
+  axios.get('http://localhost:3000/api/food/', {
+    withCredentials: true, 
   })
+  .then((response) => {
+    setCurrentVideo(response.data.fooditems)
+  })
+  .catch((err) => {
+    console.error('Failed to fetch food items:', err)
+  })
+}, [])
 
   const handleVideoRef = (el, index) => {
     videoRefs.current[index] = el
@@ -63,9 +68,10 @@ const Home = () => {
             ref={(el) => handleVideoRef(el, index)}
             data-index={index}
             className="home-reel-video"
-            src={reel.video}
+            src={reel.video}  
             muted
             loop
+            autoPlay
             playsInline
             preload="metadata"
           />
