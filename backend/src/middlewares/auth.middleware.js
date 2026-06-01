@@ -20,6 +20,12 @@ const authfoodPartner = async(req ,res,next)=>{
 
         const foodPartner = await foodPartnerModel.findById(decoded.id); 
 
+        if(!foodPartner){
+            return res.status(401).json({
+                message : "Food partner not found"
+            })
+        }
+
         req.foodPartner = foodPartner; // req object me foodParther property create kr rhe hai jisme food partner ke data ko store kr rhe hai taki aage ke middleware me ya route handler me use kr ske
         next(); // next middleware ko call kr rhe hai taki request aage badh ske
     }
