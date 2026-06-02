@@ -1,0 +1,115 @@
+@import "./theme.css";
+
+/* Styles for CreateFood page using theme variables from src/styles/theme.css */
+.create-food-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-family-base);
+}
+
+.create-food-form {
+  width: 100%;
+  max-width: 780px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-light);
+  padding: calc(var(--spacing-lg) + 8px);
+  border: 1px solid var(--border-color);
+}
+
+.form-title {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.field {
+  display: block;
+  margin-bottom: var(--spacing-md);
+}
+
+.field .label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.input,
+.textarea,
+.input-file {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.input:focus,
+.textarea:focus,
+.input-file:focus {
+  outline: none;
+  box-shadow: var(--shadow-light);
+  border-color: var(--link-color);
+}
+
+.video-preview {
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.video-preview video {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  background: #000;
+}
+
+.video-meta {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.btn {
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--button-primary), var(--button-primary-hover));
+  color: #fff;
+}
+
+.btn-primary:hover { transform: translateY(-1px); }
+
+.btn-secondary {
+  background: var(--button-secondary);
+  color: var(--button-secondary-text);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover { transform: translateY(-1px); }
+
+@media (max-width: 640px) {
+  .create-food-form { padding: var(--spacing-md); }
+}
