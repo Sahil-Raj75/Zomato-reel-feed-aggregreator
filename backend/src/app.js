@@ -4,6 +4,7 @@ const express  = require('express'); // express module ko import kr rhe hai
 const cookieParser = require('cookie-parser'); // cookie parser module ko import kr rhe hai
 const authRouter = require('./routers/auth.routers');
 const foodRouter = require('./routers/food.routers');
+const foodPartnerRouter = require('./routers/food-partner.routes');
 const cors = require('cors'); // cors module ko import kr rhe hai
 
 const app = express(); // server instance create kr rhe hai
@@ -17,5 +18,6 @@ app.use(cors({
 
 app.use ('/api/auth/' , authRouter); // auth router ko use kr rhe hai /api/auth/ ke route pe (prefix hai /api/auth) 
 app.use('/api/food/' , foodRouter); // food router ko use kr rhe hai /api/food/ ke route pe (prefix hai /api/food)
+app.use('/api/food-partner/' , foodPartnerRouter); // food partner router ko use kr rhe hai /api/food-partner/ ke route pe (prefix hai /api/food-partner)
 module.exports = app; // app ko export kr rhe hai taki use kr ske dusre file me
 

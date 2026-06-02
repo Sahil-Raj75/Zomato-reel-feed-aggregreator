@@ -1,34 +1,32 @@
 import { useState, useEffect } from 'react';
 import '../../styles/foodPartnerProfile.css';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const FoodPartnerProfile = () => {
-  const [profileData, setProfileData] = useState({
-    businessName: 'Restaurant Name',
-    address: '123 Food Street, City',
-    profileImage: 'https://via.placeholder.com/120',
-    totalMeals: 43,
-    customerServed: '15K',
-  });
+  
+  const { id } = useParams();
 
-  const [foodVideos, setFoodVideos] = useState([
-    { id: 1, title: 'Video 1' },
-    { id: 2, title: 'Video 2' },
-    { id: 3, title: 'Video 3' },
-    { id: 4, title: 'Video 4' },
-    { id: 5, title: 'Video 5' },
-    { id: 6, title: 'Video 6' },
-    { id: 7, title: 'Video 7' },
-    { id: 8, title: 'Video 8' },
-    { id: 9, title: 'Video 9' },
-  ]);
+  const [profileData, setProfileData] = useState(null);
 
+  const [foodVideos, setFoodVideos] = useState([]);
+
+  useEffect(() => {
+    // Fetch profile data from backend using the id from params
+    axios.get(`http://localhost:3000/api/food-partner/${id}`, { withCredentials: true })
+      .then(response => {
+        // const data = response.data.foodPartner; // backend se food partner ka data le rhe hai
+        setProfileData(response.data.foodPartner)
+        setFoodVideos(response.data.foodPartner.video) // backend se food videos ka data le rhe hai
+    })
+  },[id])
   return (
     <div className="profile-container">
       {/* Header Section */}
       <div className="profile-header">
         <div className="profile-image-section">
           <div className="profile-image">
-            <img src={profileData.profileImage} alt="Profile" />
+            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fpng-clipart%2F20230927%2Foriginal%2Fpngtree-man-avatar-image-for-profile-png-image_13001882.png&f=1&nofb=1&ipt=8940619e82ba17e7bd8d05b11b00c9c9414d48a287c1b73d09fd45473a8b4b09" alt="Profile" />
           </div>
         </div>
 
@@ -37,14 +35,14 @@ const FoodPartnerProfile = () => {
             type="text"
             className="profile-input business-name"
             placeholder="Business Name"
-            defaultValue={profileData.businessName}
+            defaultValue={profileData?.restaurantName}
             disabled
           />
           <input
             type="text"
             className="profile-input address"
             placeholder="Address"
-            defaultValue={profileData.address}
+            defaultValue={profileData?.restaurantaddress}
             disabled
           />
         </div>
@@ -54,21 +52,21 @@ const FoodPartnerProfile = () => {
       <div className="stats-section">
         <div className="stat-item">
           <p className="stat-label">total meals</p>
-          <p className="stat-value">{profileData.totalMeals}</p>
+          <p className="stat-value">45</p>
         </div>
         <div className="stat-divider"></div>
         <div className="stat-item">
           <p className="stat-label">customer served</p>
-          <p className="stat-value">{profileData.customerServed}</p>
+          <p className="stat-value">15k</p>
         </div>
       </div>
 
       {/* Videos Grid Section */}
       <div className="videos-grid">
-        {foodVideos.map((video) => (
-          <div key={video.id} className="video-card">
+        {foodVideos.map((v) => (
+          <div key={v.id} className="video-card">
             <div className="video-placeholder">
-              <span>video</span>
+              <video src={v.video} muted ></video>
             </div>
           </div>
         ))}
