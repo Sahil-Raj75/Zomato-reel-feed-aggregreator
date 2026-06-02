@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import './../../styles/createFood.css'
 import axios from 'axios'
+
 const CreateFood = () => {
   const [videoFile, setVideoFile] = useState(null)
   const [name, setName] = useState('')
@@ -14,22 +15,29 @@ const CreateFood = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     if (!videoFile || !name.trim()) {
-      console.log('Please provide a video file and a name')
+      alert('Please provide a video file and a name')
+      return
     }
     const formData = new FormData()
     formData.append('video', videoFile)
     formData.append('name', name)
     formData.append('description', description)
-    // TODO: send `formData` to backend endpoint (e.g., /api/foods)
-    
-    const response = await axios.post('http://localhost:3000/api/food', formData, {
-      withCredentials: true
-  })
 
-    console.log(response.data);
-}
+    try {
+      const response = await axios.post('http://localhost:3000/api/food/', formData, {
+        withCredentials: true,
+      })
+      console.log('Create food response:', response.data)
+    } catch (error) {
+      console.error('CreateFood submit error:', error)
+      if (error.response) {
+        alert(error.response.data.message || 'API response error')
+      } else {
+        console.log('Network error: unable to reach backend at http://localhost:3000')
+      }
+    }
+  }
 
   const clearForm = () => {
     setVideoFile(null)
@@ -95,4 +103,4 @@ const CreateFood = () => {
   )
 }
 
-export default CreateFood;
+export default CreateFood
