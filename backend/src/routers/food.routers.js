@@ -15,5 +15,7 @@ router.post('/' , authMiddleware.authfoodPartner , upload.single("video") ,foodC
 // GET /api/food/ [protected] 
 router.get('/' , authMiddleware.authUsermiddleware , foodController.getAllfood); // normal user bhi is route ko access kr ske isliye authUsermiddleware use kr rhe hai taki sirf authenticated user hi food items dekh ske
 
+router.post("/like", authMiddleware.authUsermiddleware , foodController.likeFood); // like karne ke liye bhi user ko authenticated hona chahiye isliye authUsermiddleware use kr rhe hai taki sirf authenticated user hi food like kr ske
 
+router.post("/save" , authMiddleware.authUsermiddleware , foodController.saveFood); // save karne ke liye bhi user ko authenticated hona chahiye isliye authUsermiddleware use kr rhe hai taki sirf authenticated user hi food save kr ske
 module.exports = router;
