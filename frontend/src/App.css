@@ -46,7 +46,7 @@ html, body {
     position: relative;
     z-index: 2;
     width: 100%;
-    padding: 24px 20px 40px;
+    padding: 24px 20px 80px;
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -94,6 +94,72 @@ html, body {
     outline-offset: 3px;
 }
 
+/* Right side action buttons */
+.home-reel-actions {
+    position: absolute;
+    right: 16px;
+    bottom: 120px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.action-button:hover {
+    transform: scale(1.15);
+}
+
+.action-icon {
+    width: 32px;
+    height: 32px;
+    color: #ffffff;
+    stroke: #ffffff;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+    transition: all 0.3s ease;
+}
+
+.action-icon.liked {
+    color: #ff5851;
+    stroke: #ff5851;
+}
+
+.action-icon.saved {
+    color: #ffc107;
+    stroke: #ffc107;
+}
+
+.action-count {
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.like-button:active .action-icon {
+    animation: likeAnimation 0.6s ease-out;
+}
+
+@keyframes likeAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 /* Mobile optimizations */
 @media (max-width: 768px) {
     .home-reel-container {
@@ -113,7 +179,7 @@ html, body {
     }
 
     .home-reel-overlay {
-        padding: 20px 16px 32px;
+        padding: 20px 16px 60px;
     }
 
     .home-reel-text h2 {
@@ -128,5 +194,20 @@ html, body {
     .home-reel-button {
         padding: 12px 20px;
         font-size: 0.95rem;
+    }
+
+    .home-reel-actions {
+        right: 12px;
+        bottom: 100px;
+        gap: 20px;
+    }
+
+    .action-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .action-count {
+        font-size: 0.75rem;
     }
 }

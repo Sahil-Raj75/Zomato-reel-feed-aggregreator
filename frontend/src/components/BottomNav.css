@@ -1,0 +1,120 @@
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 60px;
+    height: 60px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.nav-item:hover {
+    color: var(--button-primary);
+    background: rgba(239, 79, 95, 0.1);
+}
+
+.nav-item.active {
+    color: var(--button-primary);
+}
+
+.nav-item svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+}
+
+.nav-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-align: center;
+    max-width: 50px;
+    line-height: 1;
+}
+
+/* Ensure content doesn't go under the bottom nav */
+.home-reel-container {
+    padding-bottom: 60px;
+}
+
+.saved-container {
+    padding-bottom: 60px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .bottom-nav {
+        height: 56px;
+    }
+
+    .nav-item {
+        width: 56px;
+        height: 56px;
+        gap: 2px;
+    }
+
+    .nav-item svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .nav-label {
+        font-size: 0.6rem;
+    }
+
+    .home-reel-container {
+        padding-bottom: 56px;
+    }
+
+    .saved-container {
+        padding-bottom: 56px;
+    }
+}
+
+@media (max-width: 480px) {
+    .bottom-nav {
+        height: 50px;
+    }
+
+    .nav-item {
+        width: 50px;
+        height: 50px;
+        gap: 2px;
+    }
+
+    .nav-item svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .nav-label {
+        font-size: 0.55rem;
+    }
+
+    .home-reel-container {
+        padding-bottom: 50px;
+    }
+
+    .saved-container {
+        padding-bottom: 50px;
+    }
+}

@@ -1,0 +1,233 @@
+.saved-container {
+    min-height: 100vh;
+    background: var(--bg-primary);
+    padding: 20px;
+    color: var(--text-primary);
+}
+
+.saved-header {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.saved-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.saved-count {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.saved-loading,
+.saved-error {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.saved-error {
+    color: var(--error-color);
+}
+
+.saved-empty {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    width: 80px;
+    height: 80px;
+    color: var(--text-secondary);
+    margin: 0 auto 20px;
+    opacity: 0.5;
+}
+
+.saved-empty p {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.empty-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.saved-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.saved-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.saved-card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-4px);
+}
+
+.saved-card-image {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+.saved-card-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.saved-card-content {
+    padding: 16px;
+}
+
+.saved-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.saved-card-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.saved-card-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.saved-visit-btn {
+    flex: 1;
+    display: inline-block;
+    padding: 8px 12px;
+    background: var(--button-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.saved-visit-btn:hover {
+    background: var(--button-primary-hover);
+}
+
+.saved-remove-btn {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    background: transparent;
+    border: 2px solid var(--button-primary);
+    border-radius: var(--radius-md);
+    color: var(--button-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.saved-remove-btn:hover {
+    background: var(--button-primary);
+    color: white;
+}
+
+.saved-remove-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .saved-container {
+        padding: 16px;
+    }
+
+    .saved-header {
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+    }
+
+    .saved-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .saved-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 16px;
+    }
+
+    .saved-card-content {
+        padding: 12px;
+    }
+
+    .saved-card-title {
+        font-size: 1rem;
+    }
+
+    .saved-card-description {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+    }
+
+    .saved-visit-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
+    .saved-remove-btn {
+        width: 32px;
+        height: 32px;
+        padding: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .saved-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .saved-header h1 {
+        font-size: 1.3rem;
+    }
+}
