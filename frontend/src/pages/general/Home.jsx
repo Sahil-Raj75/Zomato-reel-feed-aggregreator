@@ -10,7 +10,6 @@ const Home = () => {
   const [saves, setSaves] = useState({})
   const [userLikedItems, setUserLikedItems] = useState(new Set())
   const [userSavedItems, setUserSavedItems] = useState(new Set())
-  const navigate = useNavigate()
   const containerRef = useRef(null)
   const videoRefs = useRef([])
 
@@ -117,7 +116,6 @@ const Home = () => {
         { withCredentials: true }
       )
 
-      console.log(response.data);
       const isSaved = userSavedItems.has(foodId)
       const newSavedItems = new Set(userSavedItems)
       
@@ -132,11 +130,7 @@ const Home = () => {
         setSaves(prev => ({
           ...prev,
           [foodId]: (prev[foodId] || 0) + 1
-        }))
-        // Navigate to saved page when item is saved
-        setTimeout(() => {
-          navigate('/saved')
-        }, 300)
+        }))        
       }
       
       setUserSavedItems(newSavedItems)

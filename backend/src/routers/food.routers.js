@@ -18,4 +18,7 @@ router.get('/' , authMiddleware.authUsermiddleware , foodController.getAllfood);
 router.post("/like", authMiddleware.authUsermiddleware , foodController.likeFood); // like karne ke liye bhi user ko authenticated hona chahiye isliye authUsermiddleware use kr rhe hai taki sirf authenticated user hi food like kr ske
 
 router.post("/save" , authMiddleware.authUsermiddleware , foodController.saveFood); // save karne ke liye bhi user ko authenticated hona chahiye isliye authUsermiddleware use kr rhe hai taki sirf authenticated user hi food save kr ske
+
+router.get("/save" , authMiddleware.authUsermiddleware , foodController.getSavedFood); // saved food items ko get krne ke liye bhi user ko authenticated hona chahiye isliye authUsermiddleware use kr rhe hai taki sirf authenticated user hi apne saved food items dekh ske
+
 module.exports = router;

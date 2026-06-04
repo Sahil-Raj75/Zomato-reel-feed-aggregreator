@@ -132,9 +132,25 @@ const saveFood = async (req, res) =>{
     })
 }
 
+const getSavedFood = async (req, res) => {
+
+    const savedItems = await saveModel.find({ user: req.user._id }).populate('food');
+
+    if(!getSavedFood && getSavedFood.length === 0){
+        return res.status(404).json({
+            message : "No saved food items found for this user"
+        })
+    }
+
+    res.status(200).json({
+        message : "Saved food items fetched successfully",
+        fooditems : savedItems.map(item => item.food)
+    })
+}
 module.exports = {
     createFood ,
     getAllfood ,
     likeFood ,
-    saveFood
+    saveFood ,
+    getSavedFood
 }

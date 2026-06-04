@@ -20,10 +20,7 @@ const Saved = () => {
       const foodResponse = await axios.get('http://localhost:3000/api/food/save', {
         withCredentials: true,
       })
-
-      console.log('Fetched food items:', foodResponse.data);
-      // For now, we'll display all items
-      // In a real app, you'd fetch only the saved items for the user
+  
       setSavedItems(foodResponse.data.fooditems || [])
       setError(null)
     } catch (err) {
