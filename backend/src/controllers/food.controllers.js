@@ -34,12 +34,28 @@ const createFood = async (req, res) => {
 };
 
 const getAllfood =async(req,res)=>{
+    await foodModel.updateMany({ saveCount: { $exists: false } }, { $set: { saveCount: 0 } })
+
     const fooditems = await foodModel.find({});  // {} means no filter — give me everything. 
-    res.status(200).json({
-        message : "Food items fetched successfully",
-        fooditems
+    const userLikes = await likeModel.find({
+        user: req.user._id,
+        food: { $in: fooditems.map(item => item._id) }
     })
 
+    const likedFoodIds = userLikes.map(like => like.food.toString());
+
+    const userSaves = await saveModel.find({
+        user: req.user._id,
+        food: { $in: fooditems.map(item => item._id) }
+    })
+    const savedFoodIds = userSaves.map(save => save.food.toString());
+
+    res.status(200).json({
+        message : "Food items fetched successfully",
+        fooditems,
+        likedFoodIds,
+        savedFoodIds
+    })
 }
 
 const likeFood = async (req, res) => {
@@ -57,7 +73,9 @@ const likeFood = async (req, res) => {
             food : foodId
         })
 
-        await foodModel.findByIdAndUpdate(foodId , {$inc : {likeCount : -1}}) // like count ko decrease krne ke liye $inc operator ka use kr rhe hai jisme hum -1 pass kr rhe hai taki like count 1 se decrease ho jaye
+        const foodItem = await foodModel.findById(foodId);
+        const newCount = Math.max(0, (foodItem?.likeCount || 0) - 1);
+        await foodModel.findByIdAndUpdate(foodId, { likeCount: newCount });
 
         return res.status(200).json({
             message :"Food item unliked successfully"
@@ -65,11 +83,11 @@ const likeFood = async (req, res) => {
     }
 
     const createlike = await likeModel.create({
-        user : usedId,
+        user : userId,
         food : foodId
     })
 
-    await foodModel.findByIdAndUpdate(foodId , {$inc : {likecount : 1}}) // like count ko increase kr kr rha 
+    await foodModel.findByIdAndUpdate(foodId , {$inc : {likeCount : 1}}) // like count ko increase kr kr rha 
 
     res.status(201).json({
         message : "Food item liked successfully",
@@ -92,6 +110,10 @@ const saveFood = async (req, res) =>{
             food : foodId
         })
 
+        const foodItem = await foodModel.findById(foodId);
+        const newCount = Math.max(0, (foodItem?.saveCount || 0) - 1);
+        await foodModel.findByIdAndUpdate(foodId, { saveCount: newCount });
+
         return res.status(200).json({
             message : "Food item unsaved successfully"
         })
@@ -101,6 +123,8 @@ const saveFood = async (req, res) =>{
         user : userId,
         food : foodId
     })
+
+    await foodModel.findByIdAndUpdate(foodId , {$inc : {saveCount : 1}})
 
     res.status(201).json({
         message : "Food item saved successfully",

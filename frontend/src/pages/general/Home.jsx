@@ -50,37 +50,43 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-  axios.get('http://localhost:3000/api/food/', {
-    withCredentials: true, 
-  })
-  .then((response) => {
-    setCurrentVideo(response.data.fooditems)
-    // Initialize likes and saves state
-    const likesObj = {}
-    const savesObj = {}
-    response.data.fooditems.forEach(item => {
-      likesObj[item._id] = item.likeCount || 0
-      savesObj[item._id] = 0
+    axios.get('http://localhost:3000/api/food/', {
+      withCredentials: true, 
     })
-    setLikes(likesObj)
-    setSaves(savesObj)
-  })
-  .catch((err) => {
-    console.error('Failed to fetch food items:', err)
-  })
-}, [])
+    .then((response) => {
+      setCurrentVideo(response.data.fooditems)
+      // Initialize likes and saves state
+      const likesObj = {}
+      const savesObj = {}
+      response.data.fooditems.forEach(item => {
+        likesObj[item._id] = item.likeCount || 0
+        savesObj[item._id] = item.saveCount || response.data.saveCounts?.[item._id] || 0
+      })
+      setLikes(likesObj)
+      setSaves(savesObj)
+
+      const likedIds = response.data.likedFoodIds || []
+      setUserLikedItems(new Set(likedIds))
+      const savedIds = response.data.savedFoodIds || []
+      setUserSavedItems(new Set(savedIds))
+    })
+    .catch((err) => {
+      console.error('Failed to fetch food items:', err)
+    })
+  }, [])
 
   const handleVideoRef = (el, index) => {
     videoRefs.current[index] = el
   }
 
-  const handleLike = async (foodId) => {
+ const handleLike = async (foodId) => {
     try {
       const response = await axios.post('http://localhost:3000/api/food/like', 
         { foodId },
         { withCredentials: true }
       )
 
+      // console.log(response.data);
       const isLiked = userLikedItems.has(foodId)
       const newLikedItems = new Set(userLikedItems)
       
@@ -88,7 +94,7 @@ const Home = () => {
         newLikedItems.delete(foodId)
         setLikes(prev => ({
           ...prev,
-          [foodId]: (prev[foodId] || 0) - 1
+          [foodId]: (prev[foodId] || 0) -1
         }))
       } else {
         newLikedItems.add(foodId)
@@ -111,6 +117,7 @@ const Home = () => {
         { withCredentials: true }
       )
 
+      console.log(response.data);
       const isSaved = userSavedItems.has(foodId)
       const newSavedItems = new Set(userSavedItems)
       
