@@ -25,10 +25,13 @@ const createFood = async (req, res) => {
 
         // console.log(foodItem);
 
+        
+
         res.status(201).json({
             message: "Food item created successfully",
             food: foodItem
         });
+
 
     
 };

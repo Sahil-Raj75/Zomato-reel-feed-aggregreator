@@ -28,7 +28,7 @@ const CreateFood = () => {
       const response = await axios.post('http://localhost:3000/api/food/', formData, {
         withCredentials: true,
       })
-      console.log('Create food response:', response.data)
+      alert("Food item created successfully")
     } catch (error) {
       console.error('CreateFood submit error:', error)
       if (error.response) {
