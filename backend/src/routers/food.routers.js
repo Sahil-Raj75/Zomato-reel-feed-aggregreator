@@ -23,4 +23,5 @@ router.get("/save" , authMiddleware.authUsermiddleware , foodController.getSaved
 
 router.post("/comment" , authMiddleware.authUsermiddleware , foodController.commentOnFood); // comment karne ke liye bhi user ko authenticated hona chahiye isliye authUsermiddleware use kr rhe hai taki sirf authenticated user hi food items pe comment kr ske
 
+router.get("/comment" , authMiddleware.authUsermiddleware , foodController.getCommentsForFood); // kisi food item ke comments ko get krne ke liye bhi user ko authenticated hona chahiye isliye authUsermiddleware use kr rhe hai taki sirf authenticated user hi kisi food item ke comments dekh ske
 module.exports = router;
