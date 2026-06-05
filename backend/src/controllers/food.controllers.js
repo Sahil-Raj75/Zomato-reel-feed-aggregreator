@@ -3,6 +3,7 @@ const storageService = require('../services/storage.service');
 const {v4 : uuid } = require('uuid'); // for unique file name generate krne ke liye
 const likeModel = require('../models/like.model');
 const saveModel = require('../models/save.model');
+const commentModel = require('../models/comment');
 
 const createFood = async (req, res) => {
         // console.log(req.file);
@@ -135,6 +136,43 @@ const saveFood = async (req, res) =>{
     })
 }
 
+const commentOnFood = async (req, res) => {
+    const foodId = req.body.foodId;
+    const content = req.body.content;
+    const userId = req.user._id;
+
+    const isAlreadyCommented = await commentModel.findOne({
+        user : userId,
+        food : foodId,
+        content : content
+    })
+
+    if(isAlreadyCommented){
+        await commentModel.deleteOne({
+            user : userId,
+            food : foodId,
+            content : content
+        })
+
+        const foodItem = await foodModel.findById(foodId);
+        const newCount = Math.max(0, (foodItem?.commentsCount || 0) - 1);
+        await foodModel.findByIdAndUpdate(foodId, { commentsCount: newCount });
+    }
+
+    const createComment = await commentModel.create({
+        user : userId,
+        food : foodId,
+        content : content
+    })
+
+    await foodModel.findByIdAndUpdate(foodId , {$inc : {commentsCount : 1}})
+
+    res.status(201).json({
+        message : "Comment added successfully",
+        createComment
+    })
+}
+
 const getSavedFood = async (req, res) => {
 
     const savedItems = await saveModel.find({ user: req.user._id }).populate('food');
@@ -155,5 +193,6 @@ module.exports = {
     getAllfood ,
     likeFood ,
     saveFood ,
-    getSavedFood
+    getSavedFood,
+    commentOnFood
 }
