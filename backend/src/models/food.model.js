@@ -24,10 +24,10 @@ const foodSchema = new mongoose.Schema({
         type : Number,
         default : 0
     },
-    commentsCount : [{
-        type : mongoose.Schema.Types.ObjectId,
+    commentsCount : {
+        type : Number,
         ref : 'comment'
-    }]
+    }
 } )
 
 const FoodModel = mongoose.model("food" , foodSchema);

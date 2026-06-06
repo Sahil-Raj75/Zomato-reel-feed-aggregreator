@@ -65,7 +65,7 @@ const Home = () => {
       response.data.fooditems.forEach(item => {
         likesObj[item._id] = item.likeCount || 0
         savesObj[item._id] = item.saveCount || response.data.saveCounts?.[item._id] || 0
-        commentsObj[item._id] = item.comments || []
+        commentsObj[item._id] = item.commentsCounts || []
       })
       setLikes(likesObj)
       setSaves(savesObj)
@@ -150,8 +150,14 @@ const Home = () => {
     setShowComments(!showComments)
   }
 
-  const handleAddComment = (foodId) => {
+  const handleAddComment = async (foodId) => {
     if (commentText.trim() === '') return
+
+    const response = await axios.post('http://localhost:3000/api/food/comment',
+      { foodId, content: commentText },
+      { withCredentials: true })
+    
+    console.log(response.data);
 
     setComments(prev => ({
       ...prev,
