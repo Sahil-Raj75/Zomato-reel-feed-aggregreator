@@ -189,10 +189,10 @@ const commentOnFood = async (req, res) => {
 }
 
 const getCommentsForFood = async (req, res) => {
-    const foodComments = await (commentModel.find({ food : req.query.foodId }).populate('content'))
+    const foodComments = await (commentModel.find({ food : req.params.id }).populate('user', 'username'));
      // populate se user ke name ko bhi le rhe hai taki response me user ka name bhi aa jaye
 
-    if(!foodComments && foodComments.length === 0){
+    if(!foodComments || foodComments.length === 0){
         return res.status(404).json({
             message : "No comments found for this food item"
         })

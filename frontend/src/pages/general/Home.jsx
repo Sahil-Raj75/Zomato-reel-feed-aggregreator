@@ -11,7 +11,7 @@ const Home = () => {
   const [saves, setSaves] = useState({})
   const [userLikedItems, setUserLikedItems] = useState(new Set())
   const [userSavedItems, setUserSavedItems] = useState(new Set())
-  const [showComments, setShowComments] = useState(false)
+  const [activeCommentFoodId, setActiveCommentFoodId] = useState(null)
   const [comments, setComments] = useState({})
   const [commentText, setCommentText] = useState('')
   const [commentCounts, setCommentCounts] = useState({})
@@ -68,7 +68,7 @@ const Home = () => {
           likesObj[item._id] = item.likeCount || 0
           savesObj[item._id] = item.saveCount || response.data.saveCounts?.[item._id] || 0
           commentsObj[item._id] = []
-          countsObj[item._id] = item.commentsCount || 0 
+          countsObj[item._id] = item.commentsCount || 0
         })
         setLikes(likesObj)
         setSaves(savesObj)
@@ -79,9 +79,9 @@ const Home = () => {
         setUserLikedItems(new Set(likedIds))
         const savedIds = response.data.savedFoodIds || []
         setUserSavedItems(new Set(savedIds))
-        
-        
-        
+
+
+
       })
       .catch((err) => {
         console.error('Failed to fetch food items:', err)
@@ -154,55 +154,63 @@ const Home = () => {
   }
 
   const handleCommentClick = (foodId) => {
-  if (!showComments) {
-    fetchComments(foodId)  // fetch only when opening
+    if (activeCommentFoodId === foodId) {
+      // clicking same video's comment button = close panel
+      setActiveCommentFoodId(null)
+    } else {
+      // clicking different video = fetch that video's comments and open
+      fetchComments(foodId)
+      setActiveCommentFoodId(foodId)
+    }
   }
-  setShowComments(!showComments)
-}
 
   const handleAddComment = async (foodId) => {
-  if (commentText.trim() === '') return
+    if (commentText.trim() === '') return
 
-  const response = await axios.post('http://localhost:3000/api/food/comment',
-    { foodId, content: commentText },
-    { withCredentials: true }
-  )
-    console.log('Fetched comments:', response.data);
+    const response = await axios.post('http://localhost:3000/api/food/comment',
+      { foodId, content: commentText },
+      { withCredentials: true }
+    )
 
-  setComments(prev => ({
-    ...prev,
-    [foodId]: [...(prev[foodId] || []), { text: commentText, timestamp: new Date() }]
-  }))
-  // Also bump the count locally
-  setCommentCounts(prev => ({
-    ...prev,
-    [foodId]: (prev[foodId] || 0) + 1
-  }))
-  setCommentText('')
-}
+    // Match the same shape as DB comments
+    const newComment = {
+      content: commentText,           // not 'text'
+      user: { username: 'You' },      // placeholder until page refresh
+      createdAt: new Date()
+    }
 
-  const fetchComments = async (foodId) => {
-    console.log('Fetching comments for foodId:', foodId)  
-  try {
-    const response = await axios.get(`http://localhost:3000/api/food/comment/${foodId}`, {
-      withCredentials: true
-    })
-    console.log(response.data);
     setComments(prev => ({
       ...prev,
-      [foodId]: response.data.comments  // adjust key based on your API response shape
+      [foodId]: [...(prev[foodId] || []), newComment]
     }))
-  } catch (err) {
-    console.error('Failed to fetch comments:', err)
+    setCommentCounts(prev => ({
+      ...prev,
+      [foodId]: (prev[foodId] || 0) + 1
+    }))
+    setCommentText('')
   }
-}
+  const fetchComments = async (foodId) => {
+    console.log('Fetching comments for foodId:', foodId)
+    try {
+      const response = await axios.get(`http://localhost:3000/api/food/comment/${foodId}`, {
+        withCredentials: true
+      })
+      console.log(response.data);
+      setComments(prev => ({
+        ...prev,
+        [foodId]: response.data.comments  // adjust key based on your API response shape
+      }))
+    } catch (err) {
+      console.error('Failed to fetch comments:', err)
+    }
+  }
 
   const activeVideo = foodItems[currentVideoIndex]
 
   return (
-    <main className={`home-reel-container ${showComments ? 'comment-panel-open' : ''}`} ref={containerRef}>
+    <main className={`home-reel-container ${activeCommentFoodId ? 'comment-panel-open' : ''}`} ref={containerRef}>
       {foodItems.map((reel, index) => (
-        <section className={`home-reel-card ${showComments ? 'minimized' : ''}`} key={reel._id}>
+        <section className={`home-reel-card ${activeCommentFoodId ? 'minimized' : ''}`} key={reel._id}>
           <video
             ref={(el) => handleVideoRef(el, index)}
             data-index={index}
@@ -230,8 +238,8 @@ const Home = () => {
               <span className="action-count">{likes[reel._id] || 0}</span>
             </div>
 
-           <div className="action-button comment-button" onClick={() => handleCommentClick(reel._id)}>
-              
+            <div className="action-button comment-button" onClick={() => handleCommentClick(reel._id)}>
+
               <svg
                 className="action-icon"
                 viewBox="0 0 24 24"
@@ -269,11 +277,11 @@ const Home = () => {
       ))}
 
       {/* Comment Panel */}
-      {showComments && activeVideo && (
-        <div className={`comment-panel ${showComments ? 'visible' : ''}`}>
+      {activeCommentFoodId && (
+        <div className="comment-panel visible">
           <div className="comment-panel-header">
             <h3>Comments</h3>
-            <button className="close-comment-btn" onClick={() => setShowComments(false)}>
+            <button className="close-comment-btn" onClick={() => setActiveCommentFoodId(null)}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -282,12 +290,12 @@ const Home = () => {
           </div>
 
           <div className="comments-list">
-            {(comments[activeVideo._id] || []).length > 0 ? (
-              (comments[activeVideo._id] || []).map((comment, idx) => (
+            {(comments[activeCommentFoodId] || []).length > 0 ? (
+              (comments[activeCommentFoodId] || []).map((comment, idx) => (
                 <div key={idx} className="comment-item">
                   <div className="comment-avatar">👤</div>
                   <div className="comment-content">
-                    <p className="comment-text">{comment.text}</p>
+                    <p className="comment-text">{comment.content}</p>
                     <span className="comment-time">
                       {comment.timestamp instanceof Date ? 'just now' : 'just now'}
                     </span>
@@ -309,14 +317,14 @@ const Home = () => {
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               onKeyPress={(e) => {
-                if (e.key === 'Enter' && activeVideo) {
-                  handleAddComment(activeVideo._id)
+                if (e.key === 'Enter' && activeCommentFoodId) {
+                  handleAddComment(activeCommentFoodId)
                 }
               }}
             />
             <button
               className="comment-submit-btn"
-              onClick={() => activeVideo && handleAddComment(activeVideo._id)}
+              onClick={() => handleAddComment(activeCommentFoodId)}
             >
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.8429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.16554707 C3.34915502,0.9084496 2.40734225,1.00636533 1.77946707,1.4776575 C0.994623095,2.10604706 0.837654326,3.0486314 1.15159189,3.99701575 L3.03521743,10.4380088 C3.03521743,10.5951061 3.19218622,10.7522035 3.50612381,10.7522035 L16.6915026,11.5376904 C16.6915026,11.5376904 17.1624089,11.5376904 17.1624089,12.0089825 C17.1624089,12.4744748 16.6915026,12.4744748 16.6915026,12.4744748 Z" />
@@ -327,8 +335,8 @@ const Home = () => {
       )}
 
       {/* Overlay background when comment panel is open */}
-      {showComments && (
-        <div className="comment-panel-overlay" onClick={() => setShowComments(false)}></div>
+      {activeCommentFoodId && (
+        <div className="comment-panel-overlay" onClick={() => setActiveCommentFoodId(null)}></div>
       )}
     </main>
   )
