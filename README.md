@@ -81,6 +81,66 @@ Backend zomato reel feed/
 
 ---
 
+## ⚙️ Setup & Installation
+
+### Prerequisites
+
+- Node.js v18+
+- MongoDB (local or Atlas)
+- ImageKit account (for video hosting)
+
+---
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Sahil-Raj75/Zomato-reel-feed-aggregreator.git
+cd Zomato-reel-feed-aggregreator
+```
+
+---
+
+### 2. Backend Setup
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file in the `backend/` directory:
+
+```env
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/food-delivery-app
+JWT_SECRET=your_jwt_secret_here
+IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
+IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
+IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_id
+CLIENT_URL=http://localhost:5173
+```
+
+Start the backend server:
+
+```bash
+npm run dev
+```
+
+Backend runs on `http://localhost:3000`
+
+---
+
+### 3. Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs on `http://localhost:5173`
+
+---
+
 ## 🔌 API Overview
 
 ### Auth
