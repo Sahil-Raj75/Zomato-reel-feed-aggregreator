@@ -51,13 +51,13 @@ Backend zomato reel feed/
 │   └── src/
 │       ├── controllers/
 │       │   ├── auth.controller.js
-            ├── food.controllers.js
+│       │    ├── food.controllers.js
 │       │   └── foodPartner.controllers.js
 │       ├── db/ 
-            └── db.js
+│       │   └── db.js
 │       ├── middlewares/
 │       │   └── auth.middleware.js
-            
+│       │   
 │       ├── models/
 │       │   ├── comment.js
 │       │   ├── food.model.js
@@ -69,8 +69,11 @@ Backend zomato reel feed/
 │       │   ├── auth.routers.js
 │       │   ├── food-partner.routes.js
 │       │   └── food.routers.js
+│       ├── services/
+│       │   └──storage.services.js
+│       │
 │       └── app.js
-│   └── server.js
+│    └── server.js
 │
 └── frontend/
     └── src/
