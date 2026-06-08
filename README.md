@@ -50,10 +50,14 @@ Backend zomato reel feed/
 ├── backend/
 │   └── src/
 │       ├── controllers/
-│       │   ├── food.controllers.js
+│       │   ├── auth.controller.js
+            ├── food.controllers.js
 │       │   └── foodPartner.controllers.js
 │       ├── db/ 
+            └── db.js
 │       ├── middlewares/
+│       │   └── auth.middleware.js
+            
 │       ├── models/
 │       │   ├── comment.js
 │       │   ├── food.model.js
