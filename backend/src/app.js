@@ -12,7 +12,7 @@ app.use(express.json()); // json data ko parse krne ke liye middleware use kr rh
 app.use(cookieParser()); 
 // cookie parser middleware use kr rhe hai token ko cookie me store kr ske
 app.use(cors({
-    origin : "http://localhost:5173", // frontend ka url jaha se request aayegi
+    origin :['http://localhost:5173', 'https://foodreelfeed.onrender.com'], // frontend ka url jaha se request aayegi
     credentials : true // credentials true kr rhe hai taki cookies bhej ske cross origin request me
 })); // cors middleware use kr rhe hai cross origin requests allow krne ke liye
 
