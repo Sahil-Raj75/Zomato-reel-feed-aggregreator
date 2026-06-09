@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import './Saved.css'
-import BASE_URL from '../../src/config'
+import BASE_URL from '../../config'
 
 const Saved = () => {
   const [savedItems, setSavedItems] = useState([])

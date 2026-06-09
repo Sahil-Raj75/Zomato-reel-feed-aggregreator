@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import './../../styles/createFood.css'
+import './../../styles/CreateFood.css'
 import axios from 'axios'
-import BASE_URL from '.././../config'
+import BASE_URL from '../../config'
 
 const CreateFood = () => {
   const [videoFile, setVideoFile] = useState(null)
