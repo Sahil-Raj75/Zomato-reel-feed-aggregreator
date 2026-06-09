@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
-
+import BASE_URL from '../.././config'
 
 const Home = () => {
   const [foodItems, setFoodItems] = useState([])
@@ -54,7 +54,7 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/food/', {
+    axios.get(`${BASE_URL}/api/food/`, {
       withCredentials: true,
     })
       .then((response) => {
@@ -94,7 +94,7 @@ const Home = () => {
 
   const handleLike = async (foodId) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/food/like',
+      const response = await axios.post(`${BASE_URL}/api/food/like`,
         { foodId },
         { withCredentials: true }
       )
@@ -125,7 +125,7 @@ const Home = () => {
 
   const handleSave = async (foodId) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/food/save',
+      const response = await axios.post(`${BASE_URL}/api/food/save`,
         { foodId },
         { withCredentials: true }
       )
@@ -167,7 +167,7 @@ const Home = () => {
   const handleAddComment = async (foodId) => {
     if (commentText.trim() === '') return
 
-    const response = await axios.post('http://localhost:3000/api/food/comment',
+    const response = await axios.post(`${BASE_URL}/api/food/comment`,
       { foodId, content: commentText },
       { withCredentials: true }
     )
@@ -192,7 +192,7 @@ const Home = () => {
   const fetchComments = async (foodId) => {
     console.log('Fetching comments for foodId:', foodId)
     try {
-      const response = await axios.get(`http://localhost:3000/api/food/comment/${foodId}`, {
+      const response = await axios.get(`${BASE_URL}/api/food/comment/${foodId}`, {
         withCredentials: true
       })
       console.log(response.data);

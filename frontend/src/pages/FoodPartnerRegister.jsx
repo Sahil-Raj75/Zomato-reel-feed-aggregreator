@@ -2,6 +2,7 @@ import '../styles/theme.css';
 import '../styles/authShared.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from '../../src/config'
 
 const FoodPartnerRegister = () => {
   
@@ -10,7 +11,7 @@ const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post('http://localhost:3000/api/auth/foodPartner/register',
+    const response = await axios.post(`${BASE_URL}/api/auth/foodPartner/register`,
         {
           email: e.target.email.value,
           ownerName: e.target.ownerName.value,

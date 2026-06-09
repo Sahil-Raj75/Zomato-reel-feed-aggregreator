@@ -117,8 +117,7 @@ npm install
 Create a `.env` file in the `backend/` directory:
 
 ```env
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/food-delivery-app
+MONGO_URI=mongodb+srv://{username}:{Your-password}@cluster0.z5ra9ow.mongodb.net/{your-db-name}?appName=Cluster0
 JWT_SECRET=your_jwt_secret_here
 IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
 IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
@@ -132,7 +131,7 @@ Start the backend server:
 npm run dev
 ```
 
-Backend runs on `http://localhost:3000`
+Backend runs on ``
 
 ---
 

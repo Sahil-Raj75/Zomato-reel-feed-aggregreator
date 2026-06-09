@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import './../../styles/createFood.css'
 import axios from 'axios'
+import BASE_URL from '.././../config'
 
 const CreateFood = () => {
   const [videoFile, setVideoFile] = useState(null)
@@ -25,7 +26,7 @@ const CreateFood = () => {
     formData.append('description', description)
 
     try {
-      const response = await axios.post('http://localhost:3000/api/food/', formData, {
+      const response = await axios.post(`${BASE_URL}/api/food/`, formData, {
         withCredentials: true,
       })
       alert("Food item created successfully")
@@ -34,7 +35,7 @@ const CreateFood = () => {
       if (error.response) {
         alert(error.response.data.message || 'API response error')
       } else {
-        console.log('Network error: unable to reach backend at http://localhost:3000')
+        console.log(`Network error: unable to reach backend at ${BASE_URL}`);
       }
     }
   }

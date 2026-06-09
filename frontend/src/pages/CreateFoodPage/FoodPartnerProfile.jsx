@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../../styles/foodPartnerProfile.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+import BASE_URL from './../../config'
 const FoodPartnerProfile = () => {
   
   const { id } = useParams();
@@ -13,7 +13,7 @@ const FoodPartnerProfile = () => {
 
   useEffect(() => {
     // Fetch profile data from backend using the id from params
-    axios.get(`http://localhost:3000/api/food-partner/${id}`, { withCredentials: true })
+    axios.get(`${BASE_URL}/api/food-partner/${id}`, { withCredentials: true })
       .then(response => {
         // const data = response.data.foodPartner; // backend se food partner ka data le rhe hai
         setProfileData(response.data.foodPartner)

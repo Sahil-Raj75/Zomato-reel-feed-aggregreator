@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import './Saved.css'
+import BASE_URL from '../../src/config'
 
 const Saved = () => {
   const [savedItems, setSavedItems] = useState([])
@@ -17,7 +18,7 @@ const Saved = () => {
       setLoading(true)
 
       // Fetch all food items first
-      const foodResponse = await axios.get('http://localhost:3000/api/food/save', {
+      const foodResponse = await axios.get(`${BASE_URL}/api/food/save`, {
         withCredentials: true,
       })
   
@@ -33,7 +34,7 @@ const Saved = () => {
 
   const handleRemoveSave = async (foodId) => {
     try {
-      await axios.post('http://localhost:3000/api/food/save',
+      await axios.post(`${BASE_URL}/api/food/save`,
         { foodId },
         { withCredentials: true }
       )

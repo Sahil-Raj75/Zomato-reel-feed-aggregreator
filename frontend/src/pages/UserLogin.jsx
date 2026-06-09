@@ -2,6 +2,7 @@ import '../styles/theme.css';
 import '../styles/authShared.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import BASE_URL from '../../src/config'
 
 const UserLogin = () => {
 
@@ -10,7 +11,7 @@ const UserLogin = () => {
   const handleSubmit = async (e) =>{
     e.preventDefault();
 
-    const response = await axios.post('http://localhost:3000/api/auth/user/login', {
+    const response = await axios.post(`${BASE_URL}/api/auth/user/login`, {
       email : e.target.email.value,
       password : e.target.password.value
     },{

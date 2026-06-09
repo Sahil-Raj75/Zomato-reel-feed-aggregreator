@@ -1,6 +1,7 @@
 import '../styles/theme.css';
 import '../styles/authShared.css';
 import axios from 'axios';
+import BASE_URL from '../../src/config'
 import { useNavigate } from 'react-router-dom';
 
 const FoodPartnerLogin = () => {
@@ -10,7 +11,7 @@ const FoodPartnerLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post('http://localhost:3000/api/auth/foodPartner/login', {
+    const response = await axios.post(`${BASE_URL}/api/auth/foodPartner/login`, {
       email: e.target.email.value,
       password: e.target.password.value
     },
